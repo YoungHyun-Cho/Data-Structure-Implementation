@@ -6,6 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
@@ -91,10 +93,12 @@ public class StackTest {
         stack.push(2);
         stack.push(3);
 
+        List<Integer> dump = stack.dump();
+
         // 결과 리스트의 각 요소가 제대로 리턴되는지 확인한다.
-        assertEquals(stack.dump().get(0), 1);
-        assertEquals(stack.dump().get(1), 2);
-        assertEquals(stack.dump().get(2), 3);
+        assertEquals(dump.get(0), 1);
+        assertEquals(dump.get(1), 2);
+        assertEquals(dump.get(2), 3);
     }
 
     @Test

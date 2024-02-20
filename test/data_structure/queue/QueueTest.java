@@ -2,6 +2,7 @@ package data_structure.queue;
 
 import data_structure.queue.exception.EmptyPracticeQueueException;
 import data_structure.queue.exception.OverflowPracticeQueueException;
+import data_structure.remind.RemindQueue;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QueueTest {
 
-    private static PracticeQueue<Integer> queue; // 테스트에 사용할 큐
+    private static RemindQueue queue; // 테스트에 사용할 큐
 
     // 큐 초기화
     @BeforeAll
     public static void initiateQueue() {
-        queue = new PracticeQueue<>(5);
+        queue = new RemindQueue(5);
     }
 
     // 각 테스트 수행 후 뷰 비우기
@@ -33,7 +34,13 @@ public class QueueTest {
         queue.enqueue(3);
 
         // 큐에 요소가 정확히 추가되었는지 확인
-        assertEquals(queue.dump().toString(), "[1, 2, 3]");
+//        assertEquals(queue.dump().toString(), "[1, 2, 3]");
+
+        int[] dump = queue.dump();
+
+        assertEquals(1, dump[0]);
+        assertEquals(2, dump[1]);
+        assertEquals(3, dump[2]);
     }
 
     @Test
@@ -62,10 +69,24 @@ public class QueueTest {
 
     @Test
     public void dequeueReuseTest() {
-        queue.enqueue(1);
-        queue.dequeue();
+//        queue.enqueue(1);
+//        queue.enqueue(2);
+//        queue.enqueue(3);
+//        queue.dequeue();
+//        queue.dequeue();
+//        queue.dequeue();
 
-        // 큐에 요소가 모두 비워졌다가 다시 최대 용량만큼 사용될 수 있어야 함.
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
+        queue.enqueue(5); // rear 0, front 0
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue();
+        queue.dequeue(); // front 0
+
         assertEquals(queue.enqueue(1), 1);
         assertEquals(queue.enqueue(2), 2);
         assertEquals(queue.enqueue(3), 3);
@@ -102,12 +123,16 @@ public class QueueTest {
         queue.enqueue(2);
         queue.enqueue(3);
 
-        List<Integer> dump = queue.dump();
+//        List<Integer> dump = queue.dump();
+        int[] dump = queue.dump();
 
         // dump()를 호출하면 큐의 내용물을 List로 리턴함.
-        assertEquals(dump.get(0), 1);
-        assertEquals(dump.get(1), 2);
-        assertEquals(dump.get(2), 3);
+//        assertEquals(dump.get(0), 1);
+//        assertEquals(dump.get(1), 2);
+//        assertEquals(dump.get(2), 3);
+        assertEquals(dump[0], 1);
+        assertEquals(dump[1], 2);
+        assertEquals(dump[2], 3);
     }
 
     @Test
@@ -116,13 +141,13 @@ public class QueueTest {
         assertThrows(EmptyPracticeQueueException.class, () -> queue.dump());
     }
 
-    @Test
-    public void dumpModifyThrowTest() {
-        queue.enqueue(1);
-
-        // dump()로 리턴받은 리스트는 수정할 수 없음.
-        assertThrows(UnsupportedOperationException.class, () -> queue.dump().add(1));
-    }
+//    @Test
+//    public void dumpModifyThrowTest() {
+//        queue.enqueue(1);
+//
+//        // dump()로 리턴받은 리스트는 수정할 수 없음.
+//        assertThrows(UnsupportedOperationException.class, () -> queue.dump().add(1));
+//    }
 
     @Test
     public void clearTest() {

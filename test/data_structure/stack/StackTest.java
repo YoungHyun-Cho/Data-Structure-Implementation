@@ -1,5 +1,8 @@
 package data_structure.stack;
 
+import data_structure.remind.RemindStack;
+import data_structure.remind.exception.EmptyDataException;
+import data_structure.remind.exception.FullDataException;
 import data_structure.stack.exception.EmptyPracticeStackException;
 import data_structure.stack.exception.OverflowPracticeStackException;
 import org.junit.jupiter.api.AfterEach;
@@ -12,12 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class StackTest {
 
-    private static PracticeStack<Integer> stack; // Test에 사용할 Stack
+    private static RemindStack stack; // Test에 사용할 Stack
 
     // 테스트 실행 전, 한 번만 스택 생성 및 초기화
     @BeforeAll
     public static void initiateStack() {
-        stack = new PracticeStack<Integer>(5);
+        stack = new RemindStack(5);
     }
 
     // 각 테스트 후 스택 비우기
@@ -49,7 +52,7 @@ public class StackTest {
         stack.push(5);
 
         // 스택이 꽉차면 OverflowPracticeStackException을 뱉어야 한다.
-        assertThrows(OverflowPracticeStackException.class, () -> stack.push(6));
+        assertThrows(FullDataException.class, () -> stack.push(6));
     }
 
     @Test
@@ -67,7 +70,8 @@ public class StackTest {
     @Test
     public void popThrowTest() {
         // 스택이 비어 있는 상태에서 pop()을 호출하면 EmptyPracticeStackException를 뱉어야 한다.
-        assertThrows(EmptyPracticeStackException.class, () -> stack.pop());
+//        assertThrows(EmptyPracticeStackException.class, () -> stack.pop());
+        assertThrows(EmptyDataException.class, () -> stack.pop());
     }
 
     @Test
@@ -84,7 +88,7 @@ public class StackTest {
     @Test
     public void peekThrowTest() {
         // 요소가 없을 때에는 EmptyPracticeStackException을 뱉어야 한다.
-        assertThrows(EmptyPracticeStackException.class, () -> stack.peek());
+        assertThrows(EmptyDataException.class, () -> stack.peek());
     }
 
     @Test
@@ -93,27 +97,31 @@ public class StackTest {
         stack.push(2);
         stack.push(3);
 
-        List<Integer> dump = stack.dump();
+//        List<Integer> dump = stack.dump();
+        int[] dump = stack.dump();
 
         // 결과 리스트의 각 요소가 제대로 리턴되는지 확인한다.
-        assertEquals(dump.get(0), 1);
-        assertEquals(dump.get(1), 2);
-        assertEquals(dump.get(2), 3);
+//        assertEquals(dump.get(0), 1);
+//        assertEquals(dump.get(1), 2);
+//        assertEquals(dump.get(2), 3);
+        assertEquals(1, dump[0]);
+        assertEquals(2, dump[1]);
+        assertEquals(3, dump[2]);
     }
 
     @Test
     public void dumpThrowTest() {
         // 스택이 비어있는 상태에서 dump()를 호출하면 EmptyPracticeStackException를 뱉어야 한다.
-        assertThrows(EmptyPracticeStackException.class, () -> stack.dump());
+        assertThrows(EmptyDataException.class, () -> stack.dump());
     }
 
-    @Test
-    public void dumpModifyThrowTest() {
-        stack.push(1);
-
-        // dump()를 통해 전달받은 리스트를 직접적으로 수정하고자 할 때, UnsupportedOperationException를 뱉어야 한다.
-        assertThrows(UnsupportedOperationException.class, () -> stack.dump().add(1));
-    }
+//    @Test
+////    public void dumpModifyThrowTest() {
+////        stack.push(1);
+////
+////        // dump()를 통해 전달받은 리스트를 직접적으로 수정하고자 할 때, UnsupportedOperationException를 뱉어야 한다.
+////        assertThrows(UnsupportedOperationException.class, () -> stack.dump().add(1));
+////    }
 
     @Test
     public void sizeTest() {
@@ -135,7 +143,7 @@ public class StackTest {
         stack.clear();
 
         // clear() 호출 시, 요소의 갯수가 0이 되어야 한다.
-        assertEquals(stack.size(), 0);
+        assertEquals(0, stack.size());
     }
 
     @Test

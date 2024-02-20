@@ -132,37 +132,6 @@ public class BinarySearchTree<K extends Comparable, V> {
             if (isLeftChild) parent.left = left.left;
             else parent.right = left.left;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        if (node.left == null) {
-//            if (node == root) root = node.right;
-//            else if (isLeftChild) parent.left = node.right;
-//            else parent.right = node.right;
-//        }
-//        else if (node.right == null) {
-//            if (node == root) root = node.left;
-//            else if (isLeftChild) parent.left = node.left;
-//            else parent.right = node.left;
-//        }
-//        else {
-//
-//        }
     }
 
     private void printSubTree(Node<K, V> node) {
